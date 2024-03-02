@@ -1,0 +1,16 @@
+.countdownTimer {
+    display: flex;
+    justify-content: right;
+    font-size: 1.5em;
+    flex-direction: column;
+    align-items: flex-end; /* タイマーとドロワーを中央揃えにする場合 */
+    -webkit-user-select: none;  /* Chrome, Safari, Opera用 */
+    -moz-user-select: none;     /* Firefox用 */
+    -ms-user-select: none;      /* IE用 */
+    user-select: none;          /* 標準構文 */
+}
+
+.timeSettingDrawer{
+    position:absolute;
+    top: 30px;
+}

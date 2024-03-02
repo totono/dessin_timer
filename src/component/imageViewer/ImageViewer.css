@@ -1,0 +1,18 @@
+.image-container {
+    width: 100vw;     /* 100% of the viewport width */
+    height: 90vh;    /* 100% of the viewport height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    -webkit-user-select: none;  /* Chrome, Safari, Opera用 */
+    -moz-user-select: none;     /* Firefox用 */
+    -ms-user-select: none;      /* IE用 */
+    user-select: none;          /* 標準構文 */
+}
+
+.responsive-image {
+    max-width: 100%;  /* Maximum width is 100% of the container */
+    max-height: 100%; /* Maximum height is 100% of the container */
+    object-fit: contain; /* Ensures the image maintains its aspect ratio */
+}
