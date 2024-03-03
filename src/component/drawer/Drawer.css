@@ -20,6 +20,16 @@
     padding: 0 0.5em;
 }
 
+.upper-right{
+    display:flex ;
+    gap : 0.5em;
+
+}
+
+.always-on-top{
+    font-size: 1.5em;
+}
+
 .controler-container{
     padding-top: 0.5em;
     display: flex;

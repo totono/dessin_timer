@@ -7,7 +7,7 @@
   },
   "package": {
     "productName": "dessin_timer",
-    "version": "0.0.0"
+    "version": "0.0.2"
   },
   "tauri": {
     "allowlist": {
@@ -20,6 +20,9 @@
       "protocol": {
         "asset": true,
         "assetScope": [ "**" ]
+      },
+      "window": {
+        "setAlwaysOnTop": true
       },
       "dialog": {
         "all": true,

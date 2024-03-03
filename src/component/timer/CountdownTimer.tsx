@@ -20,7 +20,7 @@ const CountdownTimer = ({ timer }:TimerProps) => {
   
       const hoverRight30 = clientX > innerWidth * 0.8;
   
-      const hoverTop50 = clientY < innerHeight * 0.4;
+      const hoverTop50 = clientY < innerHeight * 0.55;
   
       // 条件を満たしたらドロワーを開く
       if (hoverRight30 && hoverTop50) {
@@ -42,7 +42,10 @@ const CountdownTimer = ({ timer }:TimerProps) => {
   const formatNumber = (num: number) => num.toString().padStart(2, '0');
 
 
-  const handleTimeChange = (e: Event) =>{
+  const handleTimeChange = (e: Event) => {
+    console.log('handleTimeChange');
+    console.log((e.target as HTMLInputElement).value)
+
     const newMinutes = parseInt((e.target as HTMLInputElement).value, 10);
     timer.setTotalSeconds(newMinutes * 60);
     timer.setInitialTotalSecondsState(newMinutes * 60);

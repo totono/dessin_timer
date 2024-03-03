@@ -11,8 +11,11 @@ import {
   PauseCircleFilled,
   PushpinFilled,
   FolderOpenFilled,
+  ExpandOutlined,
+  ExportOutlined,
    } from "@ant-design/icons";
 import { Timer } from "../hooks/useTimer";
+import { appWindow } from '@tauri-apps/api/window';
 
 interface DrawerProps {
     setCurrentImage: (currentImage: string) => void;
@@ -25,6 +28,7 @@ const Drawer = ({
 
   const [isHoveringBottom, setIsHoveringBottom] = useState(false);
   const [isLocking, setIsLocking] = useState(false);
+  const [isAlwaysOnTop, setIsAlwaysOnTop] = useState(false);
 
   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
@@ -132,14 +136,20 @@ const Drawer = ({
       onMouseLeave={() => !isLocking && setIsHoveringBottom(false)}
     >
       <div className="upper">
+        <div>
         <FolderOpenFilled onClick={() => setDirectory()} className="openFolder" />
+        </div>
+        <div className="upper-right">
+        {isAlwaysOnTop ? <ExportOutlined onClick={() => {appWindow.setAlwaysOnTop(false); setIsAlwaysOnTop(false);}} className="always-on-top"/> :
+                        <ExpandOutlined onClick={() => {appWindow.setAlwaysOnTop(true); setIsAlwaysOnTop(true);}} className="always-on-top"/>}
         <PushpinFilled 
           onClick={() => {
             setIsLocking(!isLocking);
             if (!isLocking) setIsHoveringBottom(true); // isLocking が false の場合にのみ isHoveringBottom を true に設定
           }}
           className={`pin ${isLocking ? "pinned" : ""}`}
-        />
+          />
+        </div>
       </div>
       <div className="controler-container">
         <StepBackwardOutlined onClick={handlePreviousImageWithResetTimer} className="prevImage"/>
