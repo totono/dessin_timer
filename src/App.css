@@ -1,10 +1,18 @@
-.logo.vite:hover {
-  filter: drop-shadow(0 0 2em #747bff);
+:root {
+  --bg-color: rgb(212, 212, 212);
+  --text-color: rgb(17, 16, 16);
 }
 
-.logo.preact:hover {
-  filter: drop-shadow(0 0 2em #673ab8);
+.app.dark {
+  --bg-color: rgb(17, 16, 16);
+  --text-color: rgba(255, 255, 255, 0.603);
 }
+
+.app {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
 
 body, html {
   margin: 0;

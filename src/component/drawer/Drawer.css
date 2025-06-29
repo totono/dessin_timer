@@ -37,6 +37,7 @@
     align-items: center;
     width: 100%;
     background-color: rgba(51, 51, 51, 1); /* Translucent gray */
+    gap: 0.5em;
 }
 
 .nextImage{
@@ -65,4 +66,37 @@
     transform: rotate(-45deg)
 }
 
+/* Image transformation controls */
+.image-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.3em;
+    margin-left: 1em;
+    padding-left: 1em;
+    border-left: 1px solid rgba(255, 255, 255, 0.3);
+}
 
+.rotate-btn, .flip-btn {
+    font-size: 1.5em;
+    cursor: pointer;
+    padding: 0.2em;
+    border-radius: 4px;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.rotate-btn:hover, .flip-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: scale(1.1);
+}
+
+.rotate-btn:active, .flip-btn:active {
+    transform: scale(0.95);
+}
+
+.flip-btn {
+    color: #4a9eff;
+}
+
+.rotate-btn {
+    color: #ff9f40;
+}

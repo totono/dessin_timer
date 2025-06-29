@@ -13,6 +13,9 @@ import {
   FolderOpenFilled,
   ExpandOutlined,
   ExportOutlined,
+  SwapOutlined,
+  RotateLeftOutlined,
+  RotateRightOutlined,
    } from "@ant-design/icons";
 import { Timer } from "../hooks/useTimer";
 import { appWindow } from '@tauri-apps/api/window';
@@ -20,11 +23,19 @@ import { appWindow } from '@tauri-apps/api/window';
 interface DrawerProps {
     setCurrentImage: (currentImage: string) => void;
     timer: Timer;
+    isFlipped: boolean;
+    setIsFlipped: (flipped: boolean) => void;
+    rotation: number;
+    setRotation: (rotation: number) => void;
   }
   
 const Drawer = ({ 
     setCurrentImage,
-    timer}: DrawerProps) => {
+    timer,
+    isFlipped,
+    setIsFlipped,
+    rotation,
+    setRotation}: DrawerProps) => {
 
   const [isHoveringBottom, setIsHoveringBottom] = useState(false);
   const [isLocking, setIsLocking] = useState(false);
@@ -82,6 +93,9 @@ const Drawer = ({
               const imageArr: string[] = await invoke("read_directory", {path: selectedDirectory});
               setImages(imageArr);
               setCurrentImage(imageArr[currentIndex]);
+              // Reset transformations when loading new directory
+              setIsFlipped(false);
+              setRotation(0);
           }
       } catch (e) {
           console.log(e);
@@ -97,6 +111,9 @@ const Drawer = ({
         setCurrentIndex(0);
         setCurrentImage(images[0]);
     }
+    // Reset transformations when changing image
+    setIsFlipped(false);
+    setRotation(0);
   }
 
   const handlePreviousImage = () => {
@@ -107,6 +124,9 @@ const Drawer = ({
         setCurrentIndex(images.length - 1);
         setCurrentImage(images[images.length - 1]);
     }
+    // Reset transformations when changing image
+    setIsFlipped(false);
+    setRotation(0);
   }
 
 
@@ -127,6 +147,19 @@ const Drawer = ({
         timer.setTotalSeconds(timer.minutes * 60);
     }
     timer.setTimerRunning(!timer.timerRunning);
+  };
+
+  // Image transformation handlers
+  const handleFlipImage = () => {
+    setIsFlipped(!isFlipped);
+  };
+
+  const handleRotateLeft = () => {
+    setRotation(rotation - 10);
+  };
+
+  const handleRotateRight = () => {
+    setRotation(rotation + 10);
   };
 
   return (
@@ -158,6 +191,13 @@ const Drawer = ({
                       : <PlayCircleFilled onClick={handleStartPauseTimer} className="play-pause"/>}
         <ForwardFilled onClick={handleNextImage} className="nextImage"/>
         <StepForwardOutlined onClick={handleNextImageWithResetTimer} className="nextImage"/>
+        
+        {/* Image transformation controls */}
+        <div className="image-controls">
+          <RotateLeftOutlined onClick={handleRotateLeft} className="rotate-btn" title="10度左回転" />
+          <SwapOutlined onClick={handleFlipImage} className="flip-btn" title="左右反転" />
+          <RotateRightOutlined onClick={handleRotateRight} className="rotate-btn" title="10度右回転" />
+        </div>
       </div>
     </div>
   );

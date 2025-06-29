@@ -3,9 +3,11 @@ import './ImageViewer.css';
 
 interface ImageViewerProps {
     src: string;
+    isFlipped: boolean;
+    rotation: number;
 }
 
-const ImageViewer = ({src}: ImageViewerProps) => {
+const ImageViewer = ({src, isFlipped, rotation}: ImageViewerProps) => {
     useEffect(() => {
         const handleResize = () => {
             // ...
@@ -17,9 +19,17 @@ const ImageViewer = ({src}: ImageViewerProps) => {
         }
     }, []);
     
+    const imageStyle = {
+        transform: `scaleX(${isFlipped ? -1 : 1}) rotate(${rotation}deg)`
+    };
+    
     return (
         <div className = "image-container">
-            <img src={src} className="responsive-image"/>
+            <img 
+                src={src} 
+                className="responsive-image"
+                style={imageStyle}
+            />
         </div>
     )
 };
