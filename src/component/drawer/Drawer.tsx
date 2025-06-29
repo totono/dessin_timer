@@ -37,30 +37,15 @@ const Drawer = ({
     rotation,
     setRotation}: DrawerProps) => {
 
-  const [isHoveringBottom, setIsHoveringBottom] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isLocking, setIsLocking] = useState(false);
   const [isAlwaysOnTop, setIsAlwaysOnTop] = useState(false);
   const [timeUnit, setTimeUnit] = useState('minute');
   const [timeOptions, setTimeOptions] = useState([...Array(10).keys()].map(i => i + 1));
 
   useEffect(() => {
-    const handleMouseMove = (event: MouseEvent) => {
-      const hoverThreshold = window.innerHeight * 0.7; // 画面の高さの70%を閾値とする
-      if (event.clientY > hoverThreshold) {
-        setIsHoveringBottom(true);
-      } else {
-        setIsHoveringBottom(false);
-      }
-    };
-
-    if (!isLocking) {
-      window.addEventListener("mousemove", handleMouseMove);
-    }
-    // イベントリスナーをクリーンアップする
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-    };
-  }, [isLocking]); // 依存配列にisLockingを含める
+    // Remove mouse move listener since we're using toggle button instead
+  }, []);
 
   // when timer running out, go to next image
   useEffect(() => {
@@ -186,57 +171,70 @@ const Drawer = ({
     timer.setShouldResetTimer(true);
   };
 
-  return (
-    <div 
-      className={`drawer ${isHoveringBottom ? "open" : ""}`}
-      onMouseEnter={() => !isLocking && setIsHoveringBottom(true)}
-      onMouseLeave={() => !isLocking && setIsHoveringBottom(false)}
-    >
-      <div className="upper">
-        <div>
-        <FolderOpenFilled onClick={() => setDirectory()} className="openFolder" />
-        </div>
-        <div className="upper-right">
-        {isAlwaysOnTop ? <ExportOutlined onClick={() => {appWindow.setAlwaysOnTop(false); setIsAlwaysOnTop(false);}} className="always-on-top"/> :
-                        <ExpandOutlined onClick={() => {appWindow.setAlwaysOnTop(true); setIsAlwaysOnTop(true);}} className="always-on-top"/>}
-        <PushpinFilled 
-          onClick={() => {
-            setIsLocking(!isLocking);
-            if (!isLocking) setIsHoveringBottom(true); // isLocking が false の場合にのみ isHoveringBottom を true に設定
-          }}
-          className={`pin ${isLocking ? "pinned" : ""}`}
-          />
-        </div>
-      </div>
-      <div className="controler-container">
-        {/* Timer setting controls */}
-        <div className="timer-controls">
-          <select onChange={handleTimeChange} className="time-select">
-            {timeOptions.map(i => (
-              <option key={i} value={i}>{i}</option>
-            ))}
-          </select>
-          <select onChange={handleTimeUnitChange} className="unit-select">
-            <option value="minute">分</option>
-            <option value="second">秒</option>
-          </select>
-        </div>
+  const toggleDrawer = () => {
+    setIsDrawerOpen(!isDrawerOpen);
+  };
 
-        <StepBackwardOutlined onClick={handlePreviousImageWithResetTimer} className="prevImage"/>
-        <BackwardFilled onClick={handlePreviousImage} className="prevImage"/>
-        {timer.timerRunning ? <PauseCircleFilled onClick={handleStartPauseTimer} className="play-pause"/>
-                      : <PlayCircleFilled onClick={handleStartPauseTimer} className="play-pause"/>}
-        <ForwardFilled onClick={handleNextImage} className="nextImage"/>
-        <StepForwardOutlined onClick={handleNextImageWithResetTimer} className="nextImage"/>
-        
-        {/* Image transformation controls */}
-        <div className="image-controls">
-          <RotateLeftOutlined onClick={handleRotateLeft} className="rotate-btn" title="10度左回転" />
-          <SwapOutlined onClick={handleFlipImage} className="flip-btn" title="左右反転" />
-          <RotateRightOutlined onClick={handleRotateRight} className="rotate-btn" title="10度右回転" />
+  return (
+    <>
+      {/* Toggle button always visible at bottom */}
+      <div className="drawer-toggle">
+        <button onClick={toggleDrawer} className="toggle-btn">
+          {isDrawerOpen ? '▼' : '▲'}
+        </button>
+      </div>
+
+      <div 
+        className={`drawer ${isDrawerOpen ? "open" : ""}`}
+      >
+        <div className="upper">
+          <div>
+          <FolderOpenFilled onClick={() => setDirectory()} className="openFolder" />
+          </div>
+          <div className="upper-right">
+          {isAlwaysOnTop ? <ExportOutlined onClick={() => {appWindow.setAlwaysOnTop(false); setIsAlwaysOnTop(false);}} className="always-on-top"/> :
+                          <ExpandOutlined onClick={() => {appWindow.setAlwaysOnTop(true); setIsAlwaysOnTop(true);}} className="always-on-top"/>}
+          
+          {/*
+          <PushpinFilled 
+            onClick={() => {
+              setIsLocking(!isLocking);
+            }}
+            className={`pin ${isLocking ? "pinned" : ""}`}
+            />
+          */}
+          </div>
+        </div>
+        <div className="controler-container">
+          {/* Timer setting controls */}
+          <div className="timer-controls">
+            <select onChange={handleTimeChange} className="time-select">
+              {timeOptions.map(i => (
+                <option key={i} value={i}>{i}</option>
+              ))}
+            </select>
+            <select onChange={handleTimeUnitChange} className="unit-select">
+              <option value="minute">分</option>
+              <option value="second">秒</option>
+            </select>
+          </div>
+
+          <StepBackwardOutlined onClick={handlePreviousImageWithResetTimer} className="prevImage"/>
+          <BackwardFilled onClick={handlePreviousImage} className="prevImage"/>
+          {timer.timerRunning ? <PauseCircleFilled onClick={handleStartPauseTimer} className="play-pause"/>
+                        : <PlayCircleFilled onClick={handleStartPauseTimer} className="play-pause"/>}
+          <ForwardFilled onClick={handleNextImage} className="nextImage"/>
+          <StepForwardOutlined onClick={handleNextImageWithResetTimer} className="nextImage"/>
+          
+          {/* Image transformation controls */}
+          <div className="image-controls">
+            <RotateLeftOutlined onClick={handleRotateLeft} className="rotate-btn" title="10度左回転" />
+            <SwapOutlined onClick={handleFlipImage} className="flip-btn" title="左右反転" />
+            <RotateRightOutlined onClick={handleRotateRight} className="rotate-btn" title="10度右回転" />
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
