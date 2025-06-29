@@ -40,6 +40,8 @@ const Drawer = ({
   const [isHoveringBottom, setIsHoveringBottom] = useState(false);
   const [isLocking, setIsLocking] = useState(false);
   const [isAlwaysOnTop, setIsAlwaysOnTop] = useState(false);
+  const [timeUnit, setTimeUnit] = useState('minute');
+  const [timeOptions, setTimeOptions] = useState([...Array(10).keys()].map(i => i + 1));
 
   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
@@ -162,6 +164,28 @@ const Drawer = ({
     setRotation(rotation + 10);
   };
 
+  // Timer setting handlers
+  const handleTimeUnitChange = (e: Event) => {
+    const newTimeUnit = (e.target as HTMLSelectElement).value;
+    setTimeUnit(newTimeUnit);
+
+    if (newTimeUnit === 'minute') {
+      setTimeOptions([...Array(10).keys()].map(i => i + 1));
+    } else {
+      // make step 10 seconds
+      setTimeOptions([...Array(60).keys()].map(i => i + 1).filter(i => i % 10 === 0));
+    }
+  };
+
+  const handleTimeChange = (e: Event) => {
+    const newTime = parseInt((e.target as HTMLSelectElement).value, 10);
+    const seconds = timeUnit === 'minute' ? newTime * 60 : newTime;
+
+    timer.setTotalSeconds(seconds);
+    timer.setInitialTotalSecondsState(seconds);
+    timer.setShouldResetTimer(true);
+  };
+
   return (
     <div 
       className={`drawer ${isHoveringBottom ? "open" : ""}`}
@@ -185,6 +209,19 @@ const Drawer = ({
         </div>
       </div>
       <div className="controler-container">
+        {/* Timer setting controls */}
+        <div className="timer-controls">
+          <select onChange={handleTimeChange} className="time-select">
+            {timeOptions.map(i => (
+              <option key={i} value={i}>{i}</option>
+            ))}
+          </select>
+          <select onChange={handleTimeUnitChange} className="unit-select">
+            <option value="minute">分</option>
+            <option value="second">秒</option>
+          </select>
+        </div>
+
         <StepBackwardOutlined onClick={handlePreviousImageWithResetTimer} className="prevImage"/>
         <BackwardFilled onClick={handlePreviousImage} className="prevImage"/>
         {timer.timerRunning ? <PauseCircleFilled onClick={handleStartPauseTimer} className="play-pause"/>
