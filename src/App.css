@@ -1,18 +1,39 @@
 :root {
   --bg-color: rgb(212, 212, 212);
   --text-color: rgb(17, 16, 16);
+  
+  /* Drawer theme variables for light mode */
+  --drawer-bg-color: rgba(200, 200, 200, 0.8);
+  --drawer-container-bg: rgba(180, 180, 180, 0.9);
+  --drawer-border-color: rgba(100, 100, 100, 0.4);
+  --drawer-bg-hover: rgba(160, 160, 160, 0.9);
+  --drawer-border-hover: rgba(100, 100, 100, 0.6);
+  --select-bg-color: rgba(255, 255, 255, 0.8);
+  --select-bg-hover: rgba(255, 255, 255, 0.9);
+  --select-bg-focus: rgba(255, 255, 255, 0.95);
+  --option-bg-color: #f0f0f0;
 }
 
 .app.dark {
   --bg-color: rgb(17, 16, 16);
   --text-color: rgba(255, 255, 255, 0.603);
+  
+  /* Drawer theme variables for dark mode */
+  --drawer-bg-color: rgba(51, 51, 51, 0.8);
+  --drawer-container-bg: rgba(51, 51, 51, 1);
+  --drawer-border-color: rgba(255, 255, 255, 0.3);
+  --drawer-bg-hover: rgba(51, 51, 51, 0.9);
+  --drawer-border-hover: rgba(255, 255, 255, 0.5);
+  --select-bg-color: rgba(255, 255, 255, 0.1);
+  --select-bg-hover: rgba(255, 255, 255, 0.2);
+  --select-bg-focus: rgba(255, 255, 255, 0.15);
+  --option-bg-color: #333;
 }
 
 .app {
   background-color: var(--bg-color);
   color: var(--text-color);
 }
-
 
 body, html {
   margin: 0;

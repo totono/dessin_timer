@@ -7,9 +7,9 @@
 }
 
 .toggle-btn {
-    background-color: rgba(51, 51, 51, 0.8);
-    color: white;
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    background-color: var(--drawer-bg-color, rgba(51, 51, 51, 0.8));
+    color: var(--text-color);
+    border: 1px solid var(--drawer-border-color, rgba(255, 255, 255, 0.3));
     border-radius: 20px;
     padding: 0.5em 1em;
     font-size: 1.2em;
@@ -19,8 +19,8 @@
 }
 
 .toggle-btn:hover {
-    background-color: rgba(51, 51, 51, 0.9);
-    border-color: rgba(255, 255, 255, 0.5);
+    background-color: var(--drawer-bg-hover, rgba(51, 51, 51, 0.9));
+    border-color: var(--drawer-border-hover, rgba(255, 255, 255, 0.5));
     transform: scale(1.05);
 }
 
@@ -32,16 +32,16 @@
     position: fixed;
     left: 0;
     right: 0;
-    bottom: -100px; /* Adjust as needed */
-    height: 100px; /* Adjust as needed */
-    background-color: rgba(51, 51, 51, 0.5); /* Translucent gray */
+    bottom: -100px;
+    height: 100px;
+    background-color: var(--drawer-bg-color, rgba(51, 51, 51, 0.5));
     transition: bottom 0.3s;
     z-index: 1000;
-    /* Additional styling */
 }
 
 .openFolder{
     font-size: 2em;
+    color: var(--text-color);
 }
 
 .upper{
@@ -59,6 +59,7 @@
 
 .always-on-top{
     font-size: 1.5em;
+    color: var(--text-color);
 }
 
 .controler-container{
@@ -67,30 +68,34 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    background-color: rgba(51, 51, 51, 1); /* Translucent gray */
+    background-color: var(--drawer-container-bg, rgba(51, 51, 51, 1));
     gap: 0.5em;
 }
 
 .nextImage{
     padding-left: 0.5em;
     font-size: 2.5em;
+    color: var(--text-color);
 }
 
 .play-pause{
     font-size: 2.5em;
+    color: var(--text-color);
 }
 
 .prevImage{
     padding-right: 0.5em;
     font-size: 2.5em;
+    color: var(--text-color);
 }
 
 .drawer.open {
-    bottom: 0; /* Adjust if you want some part of the drawer always visible */
+    bottom: 0;
 }
 
 .pin {
     font-size: 1.5em;
+    color: var(--text-color);
 }
 
 .pinned {
@@ -100,18 +105,17 @@
 /* Timer controls */
 .timer-controls {
     display: flex;
-    flex-direction: column;
     gap: 0.3em;
     margin-right: 1em;
     padding-right: 1em;
-    border-right: 1px solid rgba(255, 255, 255, 0.3);
+    border-right: 1px solid var(--drawer-border-color, rgba(255, 255, 255, 0.3));
     min-width: 60px;
 }
 
 .time-select, .unit-select {
-    background-color: rgba(255, 255, 255, 0.1);
-    color: white;
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    background-color: var(--select-bg-color);
+    color: var(--text-color);
+    border: 1px solid var(--select-border-color);
     border-radius: 4px;
     padding: 0.3em 0.5em;
     font-size: 0.9em;
@@ -120,7 +124,7 @@
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
-    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='var(--dropdown-arrow-color)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
     background-repeat: no-repeat;
     background-position: right 0.5em center;
     background-size: 1em;
@@ -128,18 +132,18 @@
 }
 
 .time-select:hover, .unit-select:hover {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: var(--select-bg-hover);
 }
 
 .time-select:focus, .unit-select:focus {
     outline: none;
     border-color: #4a9eff;
-    background-color: rgba(255, 255, 255, 0.15);
+    background-color: var(--select-bg-focus);
 }
 
 .time-select option, .unit-select option {
-    background-color: #333;
-    color: white;
+    background-color: var(--option-bg-color);
+    color: var(--option-text-color);
 }
 
 /* Image transformation controls */
@@ -149,7 +153,7 @@
     gap: 0.3em;
     margin-left: 1em;
     padding-left: 1em;
-    border-left: 1px solid rgba(255, 255, 255, 0.3);
+    border-left: 1px solid var(--drawer-border-color, rgba(255, 255, 255, 0.3));
 }
 
 .rotate-btn, .flip-btn {
@@ -161,7 +165,7 @@
 }
 
 .rotate-btn:hover, .flip-btn:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: var(--select-bg-hover, rgba(255, 255, 255, 0.1));
     transform: scale(1.1);
 }
 
@@ -170,9 +174,9 @@
 }
 
 .flip-btn {
-    color: #4a9eff;
+    color: var(--flip-btn-color);
 }
 
 .rotate-btn {
-    color: #ff9f40;
+    color: var(--rotate-btn-color);
 }

@@ -42,6 +42,7 @@ const Drawer = ({
   const [isAlwaysOnTop, setIsAlwaysOnTop] = useState(false);
   const [timeUnit, setTimeUnit] = useState('minute');
   const [timeOptions, setTimeOptions] = useState([...Array(10).keys()].map(i => i + 1));
+  const [selectedTimeValue, setSelectedTimeValue] = useState(1);
 
   useEffect(() => {
     // Remove mouse move listener since we're using toggle button instead
@@ -156,14 +157,25 @@ const Drawer = ({
 
     if (newTimeUnit === 'minute') {
       setTimeOptions([...Array(10).keys()].map(i => i + 1));
+      setSelectedTimeValue(1); // Set dropdown to show 1
+      // Set default to 1 minute when switching to minutes
+      timer.setTotalSeconds(60);
+      timer.setInitialTotalSecondsState(60);
     } else {
       // make step 10 seconds
       setTimeOptions([...Array(60).keys()].map(i => i + 1).filter(i => i % 10 === 0));
+      setSelectedTimeValue(10); // Set dropdown to show 10
+      // Set default to 10 seconds when switching to seconds
+      timer.setTotalSeconds(10);
+      timer.setInitialTotalSecondsState(10);
     }
+    
+    timer.setShouldResetTimer(true);
   };
 
   const handleTimeChange = (e: Event) => {
     const newTime = parseInt((e.target as HTMLSelectElement).value, 10);
+    setSelectedTimeValue(newTime);
     const seconds = timeUnit === 'minute' ? newTime * 60 : newTime;
 
     timer.setTotalSeconds(seconds);
@@ -194,26 +206,23 @@ const Drawer = ({
           <div className="upper-right">
           {isAlwaysOnTop ? <ExportOutlined onClick={() => {appWindow.setAlwaysOnTop(false); setIsAlwaysOnTop(false);}} className="always-on-top"/> :
                           <ExpandOutlined onClick={() => {appWindow.setAlwaysOnTop(true); setIsAlwaysOnTop(true);}} className="always-on-top"/>}
-          
-          {/*
           <PushpinFilled 
             onClick={() => {
               setIsLocking(!isLocking);
             }}
             className={`pin ${isLocking ? "pinned" : ""}`}
             />
-          */}
           </div>
         </div>
         <div className="controler-container">
           {/* Timer setting controls */}
           <div className="timer-controls">
-            <select onChange={handleTimeChange} className="time-select">
+            <select onChange={handleTimeChange} className="time-select" value={selectedTimeValue}>
               {timeOptions.map(i => (
                 <option key={i} value={i}>{i}</option>
               ))}
             </select>
-            <select onChange={handleTimeUnitChange} className="unit-select">
+            <select onChange={handleTimeUnitChange} className="unit-select" value={timeUnit}>
               <option value="minute">分</option>
               <option value="second">秒</option>
             </select>
